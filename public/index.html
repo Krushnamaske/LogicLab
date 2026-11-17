@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f7fb"><meta name="description" content="An interactive digital logic learning workspace with step-by-step Karnaugh map grouping, Boolean simplification, truth tables, and code converters."><title>LogicLab — Digital Logic Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="authRoot" class="auth-root">
+  <header class="auth-nav"><a class="auth-brand" href="#"><span class="auth-mark">L✦</span> LogicLab</a><div><button class="auth-link" data-auth-view="login">Log in</button><button class="auth-cta" data-auth-view="register">Create free account</button></div></header>
+  <main class="auth-landing" id="landingView">
+    <section class="auth-hero"><div class="auth-copy"><span class="auth-eyebrow">DIGITAL LOGIC · LEARN BY DOING</span><h1>Understand the logic.<br><em>See every step.</em></h1><p>Explore Boolean simplification with interactive Karnaugh maps, step-by-step Quine–McCluskey, truth tables and digital code converters.</p><div class="auth-actions"><button class="auth-cta auth-large" data-auth-view="register">Get started for free →</button><button class="auth-secondary" data-auth-view="login">I already have an account</button></div><div class="auth-trust">Your workspace · Your progress · Access from any device</div></div><div class="auth-preview"><div class="preview-top"><span>LOGICLAB WORKSPACE</span><i>● READY</i></div><div class="preview-equation"><small>MINIMIZED BOOLEAN EXPRESSION</small><strong>F(A, B, C) = C</strong></div><div class="preview-map"><span>AB\C</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span><span>0</span><span>1</span></div><div class="preview-tags"><span>K-map solver</span><span>Quine–McCluskey</span><span>Code converters</span></div></div></section>
+    <section class="auth-features"><article><b>01 · VISUALIZE</b><h3>Karnaugh maps</h3><p>Group adjacent cells and follow the simplification.</p></article><article><b>02 · UNDERSTAND</b><h3>Quine–McCluskey</h3><p>See binary groups, combination rounds and prime implicants.</p></article><article><b>03 · CONVERT</b><h3>Digital code lab</h3><p>Explore number systems, digital codes and logic equations.</p></article></section>
+  </main>
+  <main class="auth-form-view" id="authFormView" hidden><section class="auth-form-card"><button class="auth-back" id="authBack">← Back to home</button><div class="auth-form-heading"><span class="auth-mark">L✦</span><h2 id="authTitle">Create your account</h2><p id="authSubtitle">Save your account securely and access LogicLab on any device.</p></div><form id="authForm"><div id="nameField"><label for="authName">Full name</label><input id="authName" autocomplete="name" maxlength="80" placeholder="Your name"></div><label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters"><div id="confirmField"><label for="authConfirm">Confirm password</label><input id="authConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter password"></div><p class="auth-form-error" id="authError" role="alert"></p><button class="auth-cta auth-submit" id="authSubmit" type="submit">Create account</button></form><p class="auth-switch" id="authSwitch">Already registered? <button data-auth-view="login">Log in</button></p><p class="auth-privacy">Passwords are hashed on the server. Never share your password.</p></section></main>
+</div>
+
+<div class="shell" id="workspaceShell">
+<div class="workspace-nav">
+  <a class="brand" href="#"><span class="brand-mark">L<span>✦</span></span><span><b>LogicLab</b><small>DIGITAL LOGIC LEARNING</small></span></a>
+  <div class="nav-caption">YOUR WORKSPACE</div>
+  <nav class="top-nav" aria-label="Main workspace">
+    <button class="nav active" data-page="solver"><span class="nav-icon">⌘</span><span><b>K-map solver</b><small>Minimize Boolean functions</small></span></button>
+    <button class="nav" data-page="quine"><span class="nav-icon">∑</span><span><b>Quine–McCluskey</b><small>Step-by-step minimization</small></span></button>
+    <button class="nav" data-page="converters"><span class="nav-icon">⇄</span><span><b>Code converters</b><small>Number systems & codes</small></span></button>
+  </nav>
+</div>
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">DIGITAL SYSTEMS · LEARNING WORKSPACE</div><h1 id="pageTitle">K-map solver</h1><p id="pageSubtitle">Explore Boolean functions with visual grouping and clear, step-by-step reasoning.</p></div><div class="top-actions"><span class="account-pill" id="accountPill"></span><button class="btn btn-secondary" id="logoutBtn" type="button">Log out</button><span class="local-pill" id="serverStatus"><i></i> READY TO LEARN</span><button class="btn btn-secondary" id="resetAll">↻ Reset</button></div></header>
+
+<section class="page active" id="solver">
+<section class="academic-intro" aria-label="Digital logic learning tool">
+  <div class="academic-intro-copy">
+    <p class="academic-kicker">DIGITAL LOGIC · PRACTICE TOOL</p>
+    <h2>Work through the logic,<br><span>one group at a time.</span></h2>
+    <p>Build a Karnaugh map from minterms or maxterms, inspect each group, and follow how the simplified Boolean expression is obtained.</p>
+    <button class="btn btn-primary" id="exploreLogic" type="button">Open the solver <span>→</span></button>
+  </div>
+  <div class="academic-intro-visual" aria-hidden="true">
+    <div class="mini-map-label">SAMPLE K-MAP</div>
+    <div class="mini-map">
+      <span>AB\CD</span><span>00</span><span>01</span><span>11</span><span>10</span>
+      <span>00</span><b>0</b><b class="mini-active">1</b><b class="mini-active">1</b><b>0</b>
+      <span>01</span><b>0</b><b class="mini-active">1</b><b class="mini-active">1</b><b>0</b>
+      <span>11</span><b>0</b><b>0</b><b>1</b><b>0</b>
+      <span>10</span><b>0</b><b>0</b><b>0</b><b>0</b>
+    </div>
+    <p>Adjacent 1s can be grouped in powers of two.</p>
+  </div>
+</section>
+  <div class="hero-strip"><div class="hero-symbol">ƒ</div><div><b>Learn how each simplified term is formed.</b><p>Enter a Boolean function and explore the K-map, group selections, truth table, and final minimized expression.</p></div><button class="btn btn-secondary" type="button" data-open-page="quine">Explore Quine–McCluskey →</button><span class="hero-chip">2–4 VARIABLES</span></div>
+  <div class="grid two-col">
+    <article class="card">
+      <div class="card-title"><div><span class="step">01</span><h2>Function setup</h2></div><span class="micro-label">INPUT</span></div>
+      <label>Number of variables</label><div class="segmented" id="varPicker"><button data-vars="2">2</button><button data-vars="3" class="selected">3</button><button data-vars="4">4</button></div>
+      <div id="variableNames" class="variable-names"><span>A</span><span>B</span><span>C</span></div>
+      <label for="minterms">Minterms <span class="label-note">where F = 1</span></label><input id="minterms" value="1, 3, 5, 7" placeholder="Example: 1, 3, 5, 7">
+      <div class="field-hint">Use decimal indices separated by commas.</div>
+      <label for="dontCares">Don't-care terms <span class="label-note">optional</span></label><input id="dontCares" placeholder="Example: 0, 2">
+      <p class="subtle input-help" id="functionInputHelp">SOP mode: enter the minterm indices (the input combinations where F = 1).</p>
+      <div class="field-hint">Use X terms only when your problem statement permits them.</div>
+      <label>Expression format</label><div class="segmented format-picker" id="formatPicker"><button data-format="SOP" class="selected"><b>SOP</b><small>Sum of products</small></button><button data-format="POS"><b>POS</b><small>Product of sums</small></button></div>
+      <button class="btn btn-primary full" id="solveBtn">Solve Boolean function <span>→</span></button><div class="error" id="solverError" role="status"></div>
+      <div class="quick-examples"><span>TRY AN EXAMPLE</span><button id="exampleOdd">Odd minterms</button><button id="exampleMajority">Majority function</button><button id="exampleBcd">BCD → Excess-3</button></div>
+    </article>
+    <article class="card">
+      <div class="card-title"><div><span class="step">02</span><h2>Answer overview</h2></div><span class="success-label">CALCULATED</span></div>
+      <div class="equation-box"><div class="equation-caption">MINIMIZED BOOLEAN EXPRESSION</div><div id="equation" class="equation">F(A, B, C) = C</div><div id="enteredTerms" class="entered-terms"></div><div class="equation-actions"><button class="btn btn-secondary btn-small" id="copyEquation">Copy equation</button><button class="btn btn-quiet btn-small" id="downloadEquation">Export .txt</button></div></div>
+      <div class="visual-panel"><div class="visual-panel-head"><div><span class="step">VISUAL 01</span><h3>Logic-gate circuit</h3></div><span class="micro-label">FROM MINIMIZED EQUATION</span></div><p class="subtle">A gate-level view of the expression generated from your entered minterms or maxterms.</p><div id="mainCircuit" class="circuit-view" aria-live="polite"></div></div>
+      <div class="metric-row"><div class="metric"><small>MINTERMS</small><b id="metricMinterms">4</b></div><div class="metric"><small>TERMS</small><b id="metricTerms">1</b></div><div class="metric"><small>LITERALS</small><b id="metricLiterals">1</b></div></div>
+      <div class="explanation-box"><div class="explanation-icon">✦</div><div><b>How to explain this result</b><p id="explanation">The function is minimized by grouping adjacent 1s and removing variables that change within a group.</p></div></div>
+      <div class="term-heading">Expression terms</div><div id="termChips" class="chips"></div>
+      <p class="tiny-note">If multiple equally minimal solutions exist, this tool displays one valid minimum-cost cover.</p>
+    </article>
+  </div>
+  <div class="grid two-col lower-grid">
+    <article class="card">
+      <div class="card-title"><div><span class="step">03</span><h2>Truth table</h2></div><span class="micro-label">ALL INPUTS</span></div>
+      <div class="table-tools"><span id="truthSummary">8 input combinations</span><button class="text-button" id="exportTruth">↓ Export CSV</button></div>
+      <div id="truthTable" class="table-wrap"></div>
+    </article>
+    <article class="card">
+      <div class="card-title"><div><span class="step">04</span><h2>K-map values</h2></div><span class="micro-label">GRAY ORDER</span></div>
+      <p class="subtle">A compact cell view of your function. Values are arranged in Gray-code order for easier manual grouping.</p>
+      <div id="kmap" class="kmap-wrap"></div>
+      <div class="map-legend"><span><i class="legend-one"></i> 1 · minterm</span><span><i class="legend-x"></i> X · don't care</span><span><i class="legend-zero"></i> 0 · maxterm</span><span><i class="legend-group"></i> selected group</span></div>
+    </article>
+    <article class="card grouping-card">
+      <div class="card-title"><div><span class="step">05</span><h2>Grouping walkthrough</h2></div><span class="micro-label">STEP BY STEP</span></div>
+      <p class="subtle">Groups are chosen to cover every required cell using the fewest groups, then the fewest literals. Select any group to highlight it on the map.</p>
+      <div id="groupingSteps" class="grouping-steps"></div>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="quine">
+  <div class="hero-strip qm-hero"><div class="hero-symbol">∑</div><div><b>Understand every step of Quine–McCluskey.</b><p>Enter a function here independently. These inputs are separate from the K-map solver, so you can study both methods with different examples.</p></div><span class="hero-chip">INDEPENDENT INPUT</span></div>
+  <article class="card qm-input-card">
+    <div class="card-title"><div><span class="step">01</span><h2>Enter your function</h2></div><span class="micro-label">QUINE–MCCLUSKEY INPUT</span></div>
+    <p class="subtle">Choose the variable count and expression format, then enter the required indices and optional don't-care terms. This form works independently of the K-map solver.</p>
+    <div class="grid two-col qm-input-grid">
+      <div><label>Number of variables</label><div class="segmented" id="qmVarPicker"><button data-qm-vars="2">2</button><button data-qm-vars="3" class="selected">3</button><button data-qm-vars="4">4</button></div></div>
+      <div><label>Expression format</label><div class="segmented format-picker" id="qmFormatPicker"><button data-qm-format="SOP" class="selected"><b>SOP</b><small>Minterms · F = 1</small></button><button data-qm-format="POS"><b>POS</b><small>Maxterms · F = 0</small></button></div></div>
+    </div>
+    <label id="qmIndexLabel" for="qmIndices">Minterms <span class="label-note">where F = 1</span></label>
+    <input id="qmIndices" value="1, 3, 5, 7" placeholder="Example: 1, 3, 5, 7">
+    <div class="field-hint" id="qmIndexHint">Enter decimal minterm indices separated by commas.</div>
+    <label for="qmDontCares">Don't-care terms <span class="label-note">optional</span></label><input id="qmDontCares" placeholder="Example: 0, 2">
+    <div class="field-hint">Don't-care indices must not overlap with required indices.</div>
+    <button class="btn btn-primary full" id="qmSolveBtn" type="button">Run Quine–McCluskey algorithm →</button><div class="error" id="qmInputError" role="status"></div>
+  </article>
+  <article class="card qm-learning-card">
+    <div class="card-title"><div><span class="step">02</span><h2>How the algorithm works</h2></div><span class="micro-label">TABULAR MINIMIZATION</span></div>
+    <p class="subtle">Quine–McCluskey is a systematic method for minimizing Boolean functions. It is especially useful when you want a repeatable tabular process instead of visually grouping cells.</p>
+    <div class="qm-concept-grid">
+      <div><b>1 · Convert to binary</b><p>Write each entered index using exactly the selected number of variables. Keep permitted don't-care terms in the same list.</p></div>
+      <div><b>2 · Group by 1-count</b><p>Place terms into groups according to how many 1s appear in their binary pattern. Only neighboring groups need comparison.</p></div>
+      <div><b>3 · Combine terms</b><p>Combine two patterns only when they differ in exactly one bit. Replace that differing bit with a dash (–).</p></div>
+      <div><b>4 · Repeat the rounds</b><p>Group and compare the newly combined patterns again until no more combinations can be made.</p></div>
+      <div><b>5 · Find prime implicants</b><p>Any valid term that cannot be combined further becomes a prime implicant. It represents a product term covering multiple input combinations.</p></div>
+      <div><b>6 · Build the chart</b><p>List prime implicants as rows and required minterms/maxterms as columns. A mark shows which required index each implicant covers.</p></div>
+      <div><b>7 · Select a minimum cover</b><p>Choose essential implicants first, then select the remaining implicants needed to cover every required index with a low-cost expression.</p></div>
+      <div><b>8 · Write the equation</b><p>Translate each selected binary pattern into a Boolean term. A dash means that variable is eliminated because it changes within the group.</p></div>
+    </div>
+    <div class="qm-reading-note"><b>How to read a pattern:</b> For variables A, B, C, the pattern <code>1–0</code> means A = 1, C = 0, and B can be either value. Its SOP term is <code>A C̅</code>.</div>
+  </article>
+  <article class="card qm-live-card">
+    <div class="card-title"><div><span class="step">03</span><h2>Your entered function — live derivation</h2></div><span class="micro-label">DYNAMIC STEPS</span></div>
+    <p class="subtle">Enter the function in the form above and run the algorithm. The result below includes the generated truth table, circuit diagram, combination rounds, prime-implicant chart and selected cover.</p>
+    <div class="qm-current-input" id="qmCurrentInput">Enter a function above and run the algorithm.</div><div id="qmTruthTable" class="table-wrap qm-result-table"></div><div id="qmCircuit" class="visual-panel qm-result-circuit" hidden><div class="visual-panel-head"><div><span class="step">VISUAL</span><h3>Logic-gate diagram</h3></div><span class="micro-label">FROM Q-M EQUATION</span></div><div id="qmCircuitDiagram" class="circuit-view"></div></div>
+    <div id="qmPageTrace" class="qm-page-trace"><div class="qm-empty"><b>Ready for your input</b><p>Enter minterms or maxterms above to see every Quine–McCluskey calculation step.</p></div></div>
+  </article>
+</section>
+
+<section class="page" id="converters">
+  <div class="hero-strip"><div class="hero-symbol">⇄</div><div><b>Every conversion, one clean workspace.</b><p>Switch between number bases and common digital codes without installing anything.</p></div><span class="hero-chip">INSTANT RESULTS</span></div>
+  <div class="grid two-col">
+    <article class="card">
+      <div class="card-title"><div><span class="step">01</span><h2>Number-system converter</h2></div><span class="micro-label">BASE 2–36</span></div>
+      <label for="numberInput">Input number</label><input id="numberInput" value="101101" placeholder="Enter a number">
+      <div class="grid two-input"><div><label for="fromBase">Convert from</label><select id="fromBase"><option value="2" selected>Binary · base 2</option><option value="8">Octal · base 8</option><option value="10">Decimal · base 10</option><option value="16">Hexadecimal · base 16</option></select></div><div><label for="toBase">Convert to</label><select id="toBase"><option value="10" selected>Decimal · base 10</option><option value="2">Binary · base 2</option><option value="8">Octal · base 8</option><option value="16">Hexadecimal · base 16</option></select></div></div>
+      <button class="btn btn-primary full" id="convertNumber">Convert number <span>→</span></button><div id="numberResult" class="conversion-result">45</div><div id="numberError" class="error"></div>
+      <button class="btn btn-secondary full mt" id="showAllBases">Show binary, octal, decimal & hex</button><div id="allBases" class="base-results"></div>
+    </article>
+    <article class="card">
+      <div class="card-title"><div><span class="step">02</span><h2>Digital code converter</h2></div><span class="micro-label">CODE LAB</span></div>
+      <label for="codeType">Conversion</label><select id="codeType">
+        <option value="binGray">Binary → Gray</option><option value="grayBin">Gray → Binary</option><option value="binBcd">Binary integer → BCD (8421)</option><option value="bcdBin">BCD (8421) → Binary integer</option><option value="digitBcd">Decimal digit → BCD (8421)</option><option value="bcdDigit">BCD (8421) → Decimal digit</option><option value="digitGray">Decimal digit → Gray code</option><option value="grayDigit">Gray code → Decimal digit</option><option value="digitEx3">Decimal digit → Excess-3</option><option value="ex3Digit">Excess-3 → Decimal digit</option><option value="digit8421">Decimal digit → 8421 BCD</option>
+      </select>
+      <label for="codeInput" id="codeInputLabel">Input bits</label><input id="codeInput" value="101101" placeholder="Enter bits or a decimal digit">
+      <button class="btn btn-primary full" id="convertCode">Convert code <span>→</span></button><div id="codeResult" class="conversion-result">111011</div><div id="codeError" class="error"></div>
+      <div class="explanation-box compact"><div class="explanation-icon">i</div><div><b>Conversion logic</b><p id="codeExplanation">Gray code keeps the most significant bit and XORs adjacent binary bits.</p></div></div>
+      <div class="equation-panel">
+        <div class="equation-panel-head"><div><span class="step">04</span><h3>Converter logic equations</h3></div><span class="micro-label">CIRCUIT DESIGN</span></div>
+        <p class="subtle">Choose a converter below to see the bit-by-bit Boolean equations used to design its logic circuit.</p>
+        <label for="equationConverter">Converter equations</label>
+        <select id="equationConverter">
+          <option value="binGray">Binary → Gray code</option>
+          <option value="grayBin">Gray → Binary code</option>
+          <option value="bcdGray">BCD (8421) → Gray code</option>
+          <option value="grayBcd">Gray code → BCD (8421)</option>
+          <option value="bcdEx3">BCD (8421) → Excess-3</option>
+          <option value="ex3Bcd">Excess-3 → BCD (8421)</option>
+          <option value="binBcdCircuit">Binary (4-bit) → BCD (8421)</option>
+          <option value="bcdBinCircuit">BCD (8421) → Binary (0–9)</option>
+        </select>
+        <div id="equationDetails" class="equation-details"></div><div id="converterVisuals" class="converter-visuals"></div>
+        <button class="btn btn-secondary full" id="copyConverterEquations">Copy equations</button>
+      </div>
+    </article>
+  </div>
+  <article class="card reference-card">
+    <div class="card-title"><div><span class="step">03</span><h2>Digital code reference table</h2></div><span class="micro-label">DECIMAL DIGITS 0–9</span></div>
+    <div class="table-wrap" id="codeReference"></div><p class="tiny-note">Reference codes shown here are 8421 BCD, Gray code and Excess-3.</p>
+  </article>
+</section>
+
+
+
+<footer><span class="footer-brand">LogicLab</span><span>Digital logic, made clear.</span><span class="footer-right">Built for learning · Secure account access</span></footer>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="auth.js"></script>
+<script>
+(async function checkServerStatus(){
+  const pill = document.getElementById('serverStatus');
+  if (!pill) return;
+  try {
+    const response = await fetch('/api/health', { cache: 'no-store' });
+    if (!response.ok) throw new Error('offline');
+    const data = await response.json();
+    if (data.status === 'ok') {
+      pill.innerHTML = '<i></i> SERVER ONLINE';
+      pill.title = 'LogicLab local server is healthy';
+    }
+  } catch (_) {
+    pill.title = 'Running as a static page; start server.js for server health endpoints.';
+  }
+})();
+</script>
+
+<script>
+/* Subtle interactive depth; automatically disabled for touch/reduced-motion users. */
+(function () {
+  const finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!finePointer || reduced) return;
+  let raf = 0;
+  document.addEventListener('pointermove', function (event) {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = 0;
+      const x = event.clientX / Math.max(window.innerWidth, 1);
+      const y = event.clientY / Math.max(window.innerHeight, 1);
+      document.documentElement.style.setProperty('--ll-pointer-x', (x * 100).toFixed(1) + '%');
+      document.documentElement.style.setProperty('--ll-pointer-y', (y * 100).toFixed(1) + '%');
+      const card = event.target.closest && event.target.closest('.card');
+      document.querySelectorAll('.card.is-tilting').forEach(function (item) {
+        if (item !== card) {
+          item.classList.remove('is-tilting');
+          item.style.removeProperty('--tilt-x');
+          item.style.removeProperty('--tilt-y');
+          item.style.removeProperty('--card-glow-x');
+          item.style.removeProperty('--card-glow-y');
+        }
+      });
+      if (!card || window.innerWidth < 981) return;
+      const rect = card.getBoundingClientRect();
+      const px = (event.clientX - rect.left) / rect.width;
+      const py = (event.clientY - rect.top) / rect.height;
+      card.classList.add('is-tilting');
+      card.style.setProperty('--tilt-x', ((px - .5) * 1.6).toFixed(2) + 'deg');
+      card.style.setProperty('--tilt-y', ((.5 - py) * 1.4).toFixed(2) + 'deg');
+      card.style.setProperty('--card-glow-x', (px * 100).toFixed(1) + '%');
+      card.style.setProperty('--card-glow-y', (py * 100).toFixed(1) + '%');
+    });
+  }, { passive: true });
+  document.addEventListener('pointerleave', function () {
+    document.querySelectorAll('.card.is-tilting').forEach(function (card) {
+      card.classList.remove('is-tilting');
+      card.style.removeProperty('--tilt-x');
+      card.style.removeProperty('--tilt-y');
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const btn=document.getElementById('exploreLogic');
+  if(btn) btn.addEventListener('click',function(){
+    const target=document.querySelector('#solver .grid.two-col');
+    if(target) target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  });
+})();
+</script>
+
+
+<script>
+/* Neo-Prism interaction layer: ambient cursor light, staggered reveals, page re-entry, and tilt. */
+(function(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const doc=document.documentElement;
+  let raf=0;
+  if(fine&&!reduce){
+    document.addEventListener('pointermove',function(e){
+      if(raf)return;raf=requestAnimationFrame(function(){raf=0;
+        doc.style.setProperty('--ll-x',e.clientX+'px');doc.style.setProperty('--ll-y',e.clientY+'px');
+        const card=e.target.closest&&e.target.closest('.card');
+        document.querySelectorAll('.card.is-tilting').forEach(function(c){if(c!==card){c.classList.remove('is-tilting');c.style.removeProperty('--tilt-x');c.style.removeProperty('--tilt-y');}});
+        if(!card||innerWidth<981)return;
+        const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+        card.classList.add('is-tilting');card.style.setProperty('--tilt-x',((x-.5)*1.35).toFixed(2)+'deg');card.style.setProperty('--tilt-y',((.5-y)*1.15).toFixed(2)+'deg');card.style.setProperty('--card-x',(x*100).toFixed(1)+'%');card.style.setProperty('--card-y',(y*100).toFixed(1)+'%');
+      });
+    },{passive:true});
+    document.addEventListener('pointerout',function(e){if(e.relatedTarget)return;document.querySelectorAll('.card.is-tilting').forEach(function(c){c.classList.remove('is-tilting');c.style.removeProperty('--tilt-x');c.style.removeProperty('--tilt-y');});});
+  }
+  function observeActivePage(){
+    const active=document.querySelector('.page.active');if(!active)return;
+    const targets=active.querySelectorAll('.card,.hero-strip,.reference-card');
+    if(reduce){targets.forEach(el=>el.classList.add('in-view'));return;}
+    if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('in-view'));return;}
+    const io=new IntersectionObserver((entries)=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}}),{threshold:.08,rootMargin:'0px 0px -35px 0px'});
+    targets.forEach((el,i)=>{el.classList.add('reveal-ready');el.style.transitionDelay=Math.min(i%4,3)*70+'ms';io.observe(el);});
+  }
+  function refresh(){document.querySelectorAll('.page:not(.active) .reveal-ready').forEach(el=>el.classList.remove('in-view'));observeActivePage();}
+  observeActivePage();
+  document.querySelectorAll('.nav[data-page]').forEach(btn=>btn.addEventListener('click',function(){setTimeout(refresh,40);}));
+  const reset=document.getElementById('resetAll');if(reset)reset.addEventListener('click',function(){setTimeout(refresh,80);});
+  // Give interactive values a short visual confirmation without altering their logic.
+  document.addEventListener('click',function(e){const b=e.target.closest('button');if(!b||reduce)return;b.classList.remove('ll-click-pop');void b.offsetWidth;b.classList.add('ll-click-pop');setTimeout(()=>b.classList.remove('ll-click-pop'),380);});
+})();
+</script>
+
+</body></html>
